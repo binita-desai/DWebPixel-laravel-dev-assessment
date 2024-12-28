@@ -2,15 +2,16 @@
 
 namespace App\Livewire\Pages\Jobs;
 
+use App\Models\JobPost;
 use Livewire\Component;
 
 class Index extends Component
 {
-    public array $jobs = [];
+    public $jobs;
 
     public function mount()
     {
-        $this->jobs = [
+        $testjobs = [
             [
                 "id" => 1,
                 "title" => "Sr. Full Stack Developer",
@@ -54,6 +55,17 @@ class Index extends Component
 
     public function render()
     {
+        $this->jobs = JobPost::with('skills')->get();
         return view('livewire.pages.jobs.index');
+    }
+
+    public function delete($id)
+    {
+        try{
+            JobPost::find($id)->delete();
+            session()->flash('success',"Job Deleted Successfully!!");
+        }catch(\Exception $e){
+            session()->flash('error',"Job goes wrong!!");
+        }
     }
 }
