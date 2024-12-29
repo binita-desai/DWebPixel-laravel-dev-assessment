@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class JobPost extends Model
 {
+    protected $appends = ['company_logo_url','extra'];
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class);
